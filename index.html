@@ -1,0 +1,821 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Tierpfoten Darmstadt e.V. | Das Tierheim-Fanzine</title>
+  <meta name="description" content="Tierpfoten Darmstadt e.V. – Hundeheim in Darmstadt-Eberstadt. Schnüffel dich durch unsere Hunde, mach den Schnüffel-Test, geh Gassi oder füll das Leckerli-Konto.">
+  <meta name="theme-color" content="#EFE6D2">
+  <!-- Übungsprojekt: Suchmaschinen sollen die Seite nicht aufnehmen -->
+  <meta name="robots" content="noindex, nofollow">
+
+  <!-- Farbmodus sofort setzen (verhindert kurzes Aufblitzen beim Laden) -->
+  <script>
+    (function () {
+      try {
+        var t = localStorage.getItem("tierpfoten-theme");
+        if (t === "light" || t === "dark") document.documentElement.setAttribute("data-theme", t);
+      } catch (e) {}
+      document.documentElement.classList.add("js");
+    })();
+  </script>
+
+  <!-- Schriften: Bagel Fat One (Schlagzeilen), Atkinson Hyperlegible (Text), Martian Mono (Stempel & Etiketten) -->
+  <!-- Lokal eingebunden (Ordner assets/schriften), damit keine Besucher-Daten an Google-Server gehen -->
+  <link href="assets/schriften/schriften.css" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+  <!-- ============ ICONS & HANDZEICHNUNGEN (per <use> wiederverwendet) ============ -->
+  <svg width="0" height="0" class="sr-only" aria-hidden="true" focusable="false">
+    <!-- Risodruck-Filter: verwandeln Fotos in Zweifarb-Drucke (dunkel = Ultramarin, hell = Pink/Gelb) -->
+    <filter id="duo-pink" color-interpolation-filters="sRGB">
+      <feColorMatrix type="matrix" values=".3 .59 .11 0 0  .3 .59 .11 0 0  .3 .59 .11 0 0  0 0 0 1 0"/>
+      <feComponentTransfer><feFuncR type="linear" slope="1.25" intercept="-.1"/><feFuncG type="linear" slope="1.25" intercept="-.1"/><feFuncB type="linear" slope="1.25" intercept="-.1"/></feComponentTransfer>
+      <feComponentTransfer><feFuncR type="table" tableValues=".169 1"/><feFuncG type="table" tableValues=".231 .31"/><feFuncB type="table" tableValues=".82 .64"/></feComponentTransfer>
+    </filter>
+    <filter id="duo-yellow" color-interpolation-filters="sRGB">
+      <feColorMatrix type="matrix" values=".3 .59 .11 0 0  .3 .59 .11 0 0  .3 .59 .11 0 0  0 0 0 1 0"/>
+      <feComponentTransfer><feFuncR type="linear" slope="1.25" intercept="-.1"/><feFuncG type="linear" slope="1.25" intercept="-.1"/><feFuncB type="linear" slope="1.25" intercept="-.1"/></feComponentTransfer>
+      <feComponentTransfer><feFuncR type="table" tableValues=".169 1"/><feFuncG type="table" tableValues=".231 .882"/><feFuncB type="table" tableValues=".82 .302"/></feComponentTransfer>
+    </filter>
+    <filter id="duo-blue" color-interpolation-filters="sRGB">
+      <feColorMatrix type="matrix" values=".3 .59 .11 0 0  .3 .59 .11 0 0  .3 .59 .11 0 0  0 0 0 1 0"/>
+      <feComponentTransfer><feFuncR type="linear" slope="1.2" intercept="-.08"/><feFuncG type="linear" slope="1.2" intercept="-.08"/><feFuncB type="linear" slope="1.2" intercept="-.08"/></feComponentTransfer>
+      <feComponentTransfer><feFuncR type="table" tableValues=".169 .984"/><feFuncG type="table" tableValues=".231 .965"/><feFuncB type="table" tableValues=".82 .918"/></feComponentTransfer>
+    </filter>
+    <symbol id="i-paw" viewBox="0 0 24 24"><circle cx="6.3" cy="9.6" r="2"/><circle cx="9.9" cy="5.9" r="2.1"/><circle cx="14.1" cy="5.9" r="2.1"/><circle cx="17.7" cy="9.6" r="2"/><path d="M12 11.3c-2.9 0-6 3.6-6 6.3 0 1.6 1.2 2.4 2.6 2.4 1.3 0 2.2-.7 3.4-.7s2.1.7 3.4.7c1.4 0 2.6-.8 2.6-2.4 0-2.7-3.1-6.3-6-6.3z"/></symbol>
+    <symbol id="i-bone" viewBox="0 0 48 24"><path d="M9 3.5a5 5 0 0 1 4.6 3h20.8a5 5 0 1 1 4.6 7 5 5 0 1 1-4.6 7H13.6a5 5 0 1 1-4.6-7 5 5 0 1 1 0-10z"/></symbol>
+    <symbol id="i-heart" viewBox="0 0 24 24"><path d="M12 20.5s-7.4-4.5-9.4-9.1C1.2 8.1 3.2 4.5 6.9 4.5c2.1 0 3.6 1.2 5.1 3 1.5-1.8 3-3 5.1-3 3.7 0 5.7 3.6 4.3 6.9-2 4.6-9.4 9.1-9.4 9.1z"/></symbol>
+    <symbol id="i-arrow" viewBox="0 0 24 24"><path d="M4 12.5c5-.6 10-.4 15.5-.2M13.5 6.5c2 2 4 3.8 6 5.6-2 1.7-4 3.6-5.6 5.6"/></symbol>
+    <symbol id="i-arrow-up" viewBox="0 0 24 24"><path d="M12.2 20c-.3-5-.2-10 0-15.5M6.4 10.3c2-2 3.8-4 5.7-6 1.7 2 3.6 4 5.6 5.6"/></symbol>
+    <symbol id="i-close" viewBox="0 0 24 24"><path d="M5.5 6c4 4.2 8.4 8.3 13 12.4M18.4 5.6C14.2 9.6 10 14 5.8 18.5"/></symbol>
+    <symbol id="i-chev-left" viewBox="0 0 24 24"><path d="M15.5 4.5c-2.4 2.6-5 5-7.4 7.6 2.5 2.4 4.9 5 7.2 7.6"/></symbol>
+    <symbol id="i-chev-right" viewBox="0 0 24 24"><path d="M8.5 4.5c2.4 2.6 5 5 7.4 7.6-2.5 2.4-4.9 5-7.2 7.6"/></symbol>
+    <symbol id="i-phone" viewBox="0 0 24 24"><path d="M21.5 16.6v3a2 2 0 0 1-2.2 2A19.6 19.6 0 0 1 2.4 4.7 2 2 0 0 1 4.4 2.5h3a2 2 0 0 1 2 1.7c.1.9.4 1.8.7 2.7a2 2 0 0 1-.5 2.1L8.4 10.2a16 16 0 0 0 5.4 5.4l1.2-1.2a2 2 0 0 1 2.1-.5c.9.3 1.8.6 2.7.7a2 2 0 0 1 1.7 2z"/></symbol>
+    <symbol id="i-pin" viewBox="0 0 24 24"><path d="M12 21.5s-7-6.2-7-11.7a7 7 0 0 1 14 0c0 5.5-7 11.7-7 11.7z"/><circle cx="12" cy="9.8" r="2.6"/></symbol>
+    <symbol id="i-mail" viewBox="0 0 24 24"><rect x="3" y="5" width="18" height="14" rx="2.5"/><path d="M3.5 7.5l8.5 6 8.5-6"/></symbol>
+    <symbol id="i-sun" viewBox="0 0 24 24"><circle cx="12" cy="12" r="4.2"/><path d="M12 2.5v2M12 19.5v2M2.5 12h2M19.5 12h2M5.3 5.3l1.4 1.4M17.3 17.3l1.4 1.4M5.3 18.7l1.4-1.4M17.3 6.7l1.4-1.4"/></symbol>
+    <symbol id="i-moon" viewBox="0 0 24 24"><path d="M20.5 13.4A8.5 8.5 0 1 1 10.6 3.5a6.6 6.6 0 0 0 9.9 9.9z"/></symbol>
+    <symbol id="i-check" viewBox="0 0 24 24"><path d="M4 13c2 1.6 3.6 3.4 5 5.5C12 13 15.5 8.5 20.5 4.5"/></symbol>
+    <symbol id="i-copy" viewBox="0 0 24 24"><rect x="9" y="9" width="12" height="12" rx="2.5"/><path d="M5.5 15H4.5a1.5 1.5 0 0 1-1.5-1.5v-9A1.5 1.5 0 0 1 4.5 3h9A1.5 1.5 0 0 1 15 4.5v1"/></symbol>
+    <symbol id="i-siren" viewBox="0 0 24 24"><path d="M7 18v-5.5a5 5 0 0 1 10 0V18M4.5 21h15v-3h-15zM12 2.5v2M4.3 5.8l1.4 1.4M19.7 5.8l-1.4 1.4"/></symbol>
+    <symbol id="i-menu" viewBox="0 0 24 24"><path d="M4 7c5.4-.4 10.7-.3 16 0M4 12.3c4-.3 8-.2 12 0M4 17.5c5.5-.3 11-.2 16 .2"/></symbol>
+    <symbol id="i-refresh" viewBox="0 0 24 24"><path d="M20 11.5A8 8 0 0 0 6 6.3L4 8.3M4 4v4.3h4.3M4 12.5a8 8 0 0 0 14 5.2l2-2M20 20v-4.3h-4.3"/></symbol>
+    <symbol id="i-scissors" viewBox="0 0 24 24"><circle cx="6" cy="6.5" r="3"/><circle cx="6" cy="17.5" r="3"/><path d="M8.6 8.2L20 18M8.6 15.8L20 6"/></symbol>
+    <!-- handgezeichneter Kringel-Pfeil -->
+    <symbol id="d-arrow" viewBox="0 0 120 80"><path d="M6 12c22-8 52-6 62 14 8 16-6 30-18 22-10-7 2-24 20-22 20 2 30 20 36 40M98 56c3 6 6 10 8 16M106 72c-6-1-12 0-18 2"/></symbol>
+    <!-- handgezeichneter Kreis -->
+    <symbol id="d-circle" viewBox="0 0 200 100"><path d="M150 14C112 2 40 6 16 34c-20 24 10 52 70 58 56 6 104-10 108-38 3-24-34-40-90-42"/></symbol>
+    <!-- Unterstreichung -->
+    <symbol id="d-underline" viewBox="0 0 300 24"><path d="M4 16C60 6 130 4 200 9c34 2 66 6 92 2M40 20c60-6 140-8 220-4"/></symbol>
+  </svg>
+
+  <a href="#main" class="skip-link">Zum Hauptinhalt springen</a>
+
+  <!-- ============ HINWEIS: Übungsprojekt (wichtig, weil die Seite öffentlich online steht) ============ -->
+  <div class="fiktiv-hinweis" role="note">
+    <strong>Übungsprojekt:</strong> Tierpfoten Darmstadt ist ein ausgedachtes Tierheim. Hunde, Spendenkonto und Kontaktdaten sind erfunden. Bitte nichts spenden und keine echten Daten eingeben. <a href="#projekt-info">Mehr dazu</a>
+  </div>
+
+  <!-- ============ INFO-LEISTE: Notruf + Live-Öffnungsstatus ============ -->
+  <div class="topbar">
+    <div class="container topbar__inner">
+      <p class="topbar__sos">
+        <svg class="icon" aria-hidden="true"><use href="#i-siren"/></svg>
+        <span class="hide-xs">24h-Notruf<span class="hide-sm"> · Hund entlaufen oder gefunden?</span></span>
+        <a href="#projekt-info" aria-label="Fiktive Notrufnummer, Übungsprojekt">06151 / 00 00 00</a>
+      </p>
+      <p class="status-pill" id="liveStatus" role="status" aria-live="polite">
+        <span class="status-pill__dot" aria-hidden="true"></span>
+        <span class="status-pill__text">Öffnungszeiten werden geprüft …</span>
+      </p>
+    </div>
+  </div>
+
+  <!-- ============ KOPFZEILE ============ -->
+  <header class="site-header" id="siteHeader">
+    <div class="container site-header__inner">
+      <a href="#top" class="logo" id="logo" aria-label="Tierpfoten Darmstadt – zum Seitenanfang">
+        <span class="logo__stamp" aria-hidden="true">
+          <svg class="icon icon--fill"><use href="#i-paw"/></svg>
+        </span>
+        <span class="logo__text">Tierpfoten<small>Darmstadt e.V.</small></span>
+      </a>
+
+      <nav class="main-nav" id="mainNav" aria-label="Hauptnavigation">
+        <ul>
+          <li><a href="#hunde">Die Hunde</a></li>
+          <li><a href="#match">Schnüffel-Test</a></li>
+          <li><a href="#wuffi">Frag Wuffi</a></li>
+          <li><a href="#mitmachen">Mitmachen</a></li>
+          <li><a href="#spenden">Leckerli-Konto</a></li>
+          <li><a href="#faq">Fragen</a></li>
+          <li><a href="#besuch">Besuch</a></li>
+        </ul>
+      </nav>
+
+      <div class="site-header__actions">
+        <button type="button" class="icon-btn" id="themeToggle" aria-label="Dunklen Modus einschalten">
+          <svg class="icon icon--moon" aria-hidden="true"><use href="#i-moon"/></svg>
+          <svg class="icon icon--sun" aria-hidden="true"><use href="#i-sun"/></svg>
+        </button>
+        <button type="button" class="icon-btn fav-btn" data-show-favs aria-label="Merkliste anzeigen (0 Hunde gemerkt)">
+          <svg class="icon" aria-hidden="true"><use href="#i-heart"/></svg>
+          <span class="fav-count" data-fav-count aria-hidden="true">0</span>
+        </button>
+        <a href="#kontakt" class="btn btn--pink btn--sm hide-md">Schreib uns!</a>
+        <button type="button" class="icon-btn menu-btn" id="menuToggle" aria-expanded="false" aria-controls="mainNav" aria-label="Menü öffnen">
+          <svg class="icon icon--menu" aria-hidden="true"><use href="#i-menu"/></svg>
+          <svg class="icon icon--close" aria-hidden="true"><use href="#i-close"/></svg>
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <main id="main">
+
+    <!-- ============ HERO: Titelseite des Fanzines ============ -->
+    <section class="hero" id="top" aria-labelledby="heroTitle">
+      <div class="container">
+        <p class="masthead" data-reveal>
+          <span>Das Tierpfoten-Heft</span>
+          <span>Ausgabe Herbst 2026</span>
+          <span><span data-dog-count>6</span> Fellnasen drin</span>
+          <span>Gratis · aus Eberstadt</span>
+        </p>
+      </div>
+
+      <div class="container hero__grid">
+        <div class="hero__copy">
+          <h1 class="hero__title" id="heroTitle" data-reveal>
+            <span class="ht ht--1">Fell</span>
+            <span class="ht ht--2">zu</span>
+            <span class="ht ht--3">vergeben.</span>
+          </h1>
+
+          <div class="hero__lead personal-ad" data-reveal>
+            <p class="personal-ad__label">Kontaktanzeige · Chiffre <span data-dog-count>12</span>&nbsp;Pfoten</p>
+            <p><strong>Suchen:</strong> Menschen mit Zeit, Sofa und Herz.</p>
+            <p><strong>Bieten:</strong> lebenslange Treue, Sabberküsse und ab und zu Matschpfoten.</p>
+            <p class="personal-ad__small"><span data-dog-count>12</span> Fellnasen aus dem Tierheim Darmstadt-Eberstadt freuen sich auf Post von dir.</p>
+          </div>
+
+          <div class="hero__actions" data-reveal>
+            <a href="#hunde" class="btn btn--blue btn--lg">Schnüffel dich durch <svg class="icon" aria-hidden="true"><use href="#i-arrow"/></svg></a>
+            <a href="#match" class="btn btn--paper btn--lg">Welcher Hund passt zu mir?</a>
+          </div>
+        </div>
+
+        <div class="hero__collage" data-reveal>
+          <figure class="cutout cutout--hero riso riso--pink">
+            <img src="assets/bilder/hero_dog_darmstadt.png" alt="Ein zotteliger Mischlingshund sitzt im sonnigen Park und schaut freundlich in die Kamera" width="1376" height="768" fetchpriority="high">
+            <span class="tape tape--tl" aria-hidden="true"></span>
+            <span class="tape tape--br" aria-hidden="true"></span>
+          </figure>
+
+          <div class="burst burst--hero" aria-hidden="true"><span>Sofa-<br>tauglich!</span></div>
+
+          <div class="stamp stamp--hero" aria-hidden="true">
+            <span>Geprüft</span>
+            <strong>Kuschelt</strong>
+            <span>✶ Tierpfoten ✶</span>
+          </div>
+
+          <button type="button" class="polaroid" data-open-dog="balu" aria-label="Schützling der Woche: Balu – Steckbrief öffnen">
+            <span class="polaroid__img riso riso--yellow"><img src="assets/bilder/dog_balu.jpg" alt="" width="160" height="160"></span>
+            <span class="polaroid__caption">Schützling der Woche:<br><strong>Balu, 3</strong></span>
+          </button>
+          <svg class="doodle doodle--arrow" aria-hidden="true"><use href="#d-arrow"/></svg>
+          <p class="hand-note" aria-hidden="true">klick mich!</p>
+        </div>
+      </div>
+
+      <!-- Kennzahlen als Zeitungs-Kästen -->
+      <div class="container">
+        <ul class="stats" aria-label="Tierpfoten in Zahlen">
+          <li data-reveal><strong><span data-count-to="120">120</span>+</strong><span>Vermittlungen pro Jahr</span></li>
+          <li data-reveal><strong><span data-count-to="45">45</span></strong><span>Gassigeher:innen mit Matschschuhen</span></li>
+          <li data-reveal><strong><span data-count-to="100">100</span>%</strong><span>gemeinnützig &amp; transparent</span></li>
+          <li data-reveal><strong>24/7</strong><span>Notfall-Hotline, auch nachts</span></li>
+        </ul>
+      </div>
+
+      <svg class="paw-trail" aria-hidden="true" viewBox="0 0 600 120" preserveAspectRatio="none">
+        <use href="#i-paw" x="10" y="70" width="26" height="26"/>
+        <use href="#i-paw" x="70" y="40" width="26" height="26"/>
+        <use href="#i-paw" x="130" y="72" width="26" height="26"/>
+        <use href="#i-paw" x="190" y="42" width="26" height="26"/>
+        <use href="#i-paw" x="250" y="74" width="26" height="26"/>
+        <use href="#i-paw" x="310" y="44" width="26" height="26"/>
+      </svg>
+    </section>
+
+    <!-- ============ DOPPELTES LAUFBAND (gekreuzt) ============ -->
+    <div class="tapes" aria-hidden="true">
+      <div class="marquee marquee--yellow">
+        <div class="marquee__track">
+          <span>Adoptieren ✶ Gassigehen ✶ Pate werden ✶ Leckerlis spenden ✶ Weitersagen ✶</span>
+          <span>Adoptieren ✶ Gassigehen ✶ Pate werden ✶ Leckerlis spenden ✶ Weitersagen ✶</span>
+        </div>
+      </div>
+      <div class="marquee marquee--blue marquee--reverse">
+        <div class="marquee__track">
+          <span>Wuff ✶ Schnüffel ✶ Sabber ✶ Kuschel ✶ Bällchen ✶ Wuff ✶ Schnüffel ✶ Sabber ✶</span>
+          <span>Wuff ✶ Schnüffel ✶ Sabber ✶ Kuschel ✶ Bällchen ✶ Wuff ✶ Schnüffel ✶ Sabber ✶</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- ============ ÜBER UNS: Zettelwand ============ -->
+    <section class="section" id="ueber-uns" aria-labelledby="aboutTitle">
+      <div class="container about">
+        <div class="about__head" data-reveal>
+          <p class="label">Seite 2 · Wer wir sind</p>
+          <h2 id="aboutTitle" class="riso-title">Mit Herz <span class="outline">&amp;</span> Verstand.</h2>
+          <p class="lead">Seit über 10 Jahren sorgen wir dafür, dass in Darmstadt und Umgebung kein Hund allein bleibt.
+            Bei uns zählt jeder Charakter, vom jungen Wirbelwind bis zum gemütlichen Opa.</p>
+          <a href="#mitmachen" class="scribble-link">So kannst du helfen <svg class="icon" aria-hidden="true"><use href="#i-arrow"/></svg></a>
+        </div>
+
+        <figure class="cutout cutout--about riso riso--blue" data-reveal>
+          <img src="assets/bilder/gassigehen_ehrenamt.png" alt="Eine lachende Ehrenamtliche geht mit einem Schäferhund-Mischling an der Leine durch den Wald" width="1376" height="768" loading="lazy">
+          <figcaption>Gassirunde im Stadtwald, Mi &amp; Sa</figcaption>
+          <span class="tape tape--tr" aria-hidden="true"></span>
+        </figure>
+
+        <ol class="notes">
+          <li class="note note--yellow" data-reveal>
+            <span class="note__num">01</span>
+            <h3>Artgerecht statt Zwinger</h3>
+            <p>Große Ausläufe, Ruhezonen und für jeden Hund ganz persönliche Zuwendung.</p>
+          </li>
+          <li class="note note--pink" data-reveal>
+            <span class="note__num">02</span>
+            <h3>Tierarzt inklusive</h3>
+            <p>Impfungen, Chip und liebevolle Pflege, auch für chronisch kranke und ältere Hunde.</p>
+          </li>
+          <li class="note note--blue" data-reveal>
+            <span class="note__num">03</span>
+            <h3>Vermittlung mit Geduld</h3>
+            <p>Beratung, mehrere Kennenlern-Treffen und Begleitung, vor und nach der Adoption.</p>
+          </li>
+        </ol>
+      </div>
+    </section>
+
+    <!-- ============ DIE HUNDE: Hundequartett ============ -->
+    <section class="section section--dots" id="hunde" aria-labelledby="dogsTitle">
+      <div class="container">
+        <div class="section-head">
+          <div data-reveal>
+            <p class="label">Seite 3 · Das große Hundequartett</p>
+            <h2 id="dogsTitle" class="riso-title">Schnüffel dich durch!</h2>
+          </div>
+          <p class="section-head__text" data-reveal>Jeder Hund ist eine Quartettkarte. Wer hat den höchsten Kuschelfaktor?
+            Klick eine Karte an für den ganzen Steckbrief und drück aufs <svg class="icon icon--inline" aria-hidden="true"><use href="#i-heart"/></svg>, um dir einen Hund zu merken.</p>
+        </div>
+
+        <!-- ===== Hunde-Datenbank: Suche, Sortierung, Filter ===== -->
+        <div class="db" data-reveal>
+          <div class="db__bar">
+            <div class="db__search">
+              <label for="dogSearch">Suchen</label>
+              <input type="search" id="dogSearch" placeholder="Name, Rasse oder Eigenschaft …" autocomplete="off">
+            </div>
+            <div class="db__sort">
+              <label for="dogSort">Sortieren</label>
+              <select id="dogSort">
+                <option value="wartet">Wartet am längsten</option>
+                <option value="neu">Neu bei uns</option>
+                <option value="jung">Jüngste zuerst</option>
+                <option value="alt">Älteste zuerst</option>
+                <option value="name">Name A–Z</option>
+                <option value="kuscheln">Höchster Kuschelfaktor</option>
+              </select>
+            </div>
+            <button type="button" class="btn btn--paper btn--sm db__toggle" id="filterToggle" aria-expanded="false" aria-controls="moreFilters">
+              Mehr Filter <span class="chip__count" id="filterActiveCount"></span>
+            </button>
+          </div>
+
+          <div class="filter-bar" role="group" aria-label="Nach Typ filtern">
+            <button type="button" class="chip is-active" data-filter="all" aria-pressed="true">Alle <span class="chip__count" data-filter-count="all">12</span></button>
+            <button type="button" class="chip" data-filter="familie" aria-pressed="false">Familienhunde <span class="chip__count" data-filter-count="familie"></span></button>
+            <button type="button" class="chip" data-filter="aktiv" aria-pressed="false">Wirbelwinde <span class="chip__count" data-filter-count="aktiv"></span></button>
+            <button type="button" class="chip" data-filter="senior" aria-pressed="false">Gemütliche Senioren <span class="chip__count" data-filter-count="senior"></span></button>
+            <button type="button" class="chip" data-filter="geduld" aria-pressed="false">Brauchen Geduld <span class="chip__count" data-filter-count="geduld"></span></button>
+            <button type="button" class="chip chip--heart" data-filter="favs" aria-pressed="false">
+              <svg class="icon" aria-hidden="true"><use href="#i-heart"/></svg> Gemerkt <span class="chip__count" data-filter-count="favs">0</span>
+            </button>
+          </div>
+
+          <div class="more-filters" id="moreFilters" hidden>
+            <div class="fgroup" role="group" aria-labelledby="fgSize">
+              <p class="fgroup__title" id="fgSize">Größe</p>
+              <button type="button" class="chip chip--mini" data-fgroup="size" data-fvalue="S" aria-pressed="false">S · klein</button>
+              <button type="button" class="chip chip--mini" data-fgroup="size" data-fvalue="M" aria-pressed="false">M · mittel</button>
+              <button type="button" class="chip chip--mini" data-fgroup="size" data-fvalue="L" aria-pressed="false">L · groß</button>
+            </div>
+            <div class="fgroup" role="group" aria-labelledby="fgAge">
+              <p class="fgroup__title" id="fgAge">Alter</p>
+              <button type="button" class="chip chip--mini" data-fgroup="age" data-fvalue="jung" aria-pressed="false">Junghund</button>
+              <button type="button" class="chip chip--mini" data-fgroup="age" data-fvalue="adult" aria-pressed="false">Erwachsen</button>
+              <button type="button" class="chip chip--mini" data-fgroup="age" data-fvalue="senior" aria-pressed="false">Senior 8+</button>
+            </div>
+            <div class="fgroup" role="group" aria-labelledby="fgSex">
+              <p class="fgroup__title" id="fgSex">Geschlecht</p>
+              <button type="button" class="chip chip--mini" data-fgroup="sex" data-fvalue="Hündin" aria-pressed="false">Hündin ♀</button>
+              <button type="button" class="chip chip--mini" data-fgroup="sex" data-fvalue="Rüde" aria-pressed="false">Rüde ♂</button>
+            </div>
+            <div class="fgroup" role="group" aria-labelledby="fgFit">
+              <p class="fgroup__title" id="fgFit">Passt zu</p>
+              <button type="button" class="chip chip--mini" data-fgroup="flag" data-fvalue="kinder" aria-pressed="false">Kindern</button>
+              <button type="button" class="chip chip--mini" data-fgroup="flag" data-fvalue="katzen" aria-pressed="false">Katzen</button>
+              <button type="button" class="chip chip--mini" data-fgroup="flag" data-fvalue="hunde" aria-pressed="false">anderen Hunden</button>
+              <button type="button" class="chip chip--mini" data-fgroup="flag" data-fvalue="wohnung" aria-pressed="false">Wohnung</button>
+              <button type="button" class="chip chip--mini" data-fgroup="flag" data-fvalue="anfaenger" aria-pressed="false">Anfänger:innen</button>
+            </div>
+          </div>
+
+          <div class="db__result">
+            <p class="db__count" id="dbCount" role="status" aria-live="polite">12 von 12 Fellnasen</p>
+            <button type="button" class="scribble-btn" id="filterResetAll" hidden>Alle Filter zurücksetzen</button>
+          </div>
+        </div>
+        <p class="sr-only" id="filterStatus" role="status" aria-live="polite"></p>
+
+        <div class="dog-grid" id="dogGrid">
+          <!-- Die Quartettkarten werden automatisch aus den Hundedaten in app.js erzeugt -->
+        </div>
+
+        <div class="empty-state" id="favEmpty" hidden>
+          <p class="empty-state__big" aria-hidden="true">¯\_(ツ)_/¯</p>
+          <h3 id="emptyTitle">Noch kein Hund gemerkt</h3>
+          <p id="emptyText">Drück bei einer Karte aufs Herz, dann bekommt der Hund einen Stempel und landet hier.</p>
+          <button type="button" class="btn btn--paper" data-filter-reset>Alle Hunde zeigen</button>
+        </div>
+
+        <noscript><p class="noscript">Bitte aktiviere JavaScript, um unsere Hunde zu sehen.</p></noscript>
+      </div>
+    </section>
+
+    <!-- ============ SCHNÜFFEL-TEST (Quiz) ============ -->
+    <section class="section" id="match" aria-labelledby="matchTitle">
+      <div class="container match">
+        <div class="match__intro" data-reveal>
+          <p class="label">Seite 4 · Mitmach-Seite</p>
+          <h2 id="matchTitle" class="riso-title">Der große Schnüffel-Test</h2>
+          <p class="lead">Zwei Wege zu deiner Fellnase: der schnelle Test mit 4 Fragen oder der neue <strong>KI-Rasseberater</strong>. Dem erzählst du in eigenen Worten, was du an Hunden magst.</p>
+          <p class="match__note"><strong>Kleingedrucktes:</strong> Das Quiz ist nur eine erste Orientierung. Ob es wirklich passt, merkt ihr beim Kennenlernen vor Ort.</p>
+        </div>
+
+        <div class="match__panel" data-reveal>
+        <div class="mode-tabs" role="tablist" aria-label="Art des Tests">
+          <button type="button" role="tab" class="mode-tab is-active" id="tabKlassisch" aria-selected="true" aria-controls="quiz">4 Fragen</button>
+          <button type="button" role="tab" class="mode-tab" id="tabKi" aria-selected="false" aria-controls="aiquiz" tabindex="-1">KI-Rasseberater <span class="mode-tab__new">neu</span></button>
+        </div>
+        <div class="quiz paper-sheet" id="quiz" role="tabpanel" aria-labelledby="tabKlassisch">
+          <div class="quiz__top">
+            <p class="quiz__step-label" id="quizStepLabel">Frage 1 von 4</p>
+            <div class="quiz__progress" aria-hidden="true"><span id="quizBar"></span></div>
+          </div>
+
+          <form id="quizForm" novalidate>
+            <fieldset class="quiz__step is-active" data-step="0">
+              <legend>Wie sieht dein Alltag aus?</legend>
+              <div class="option-grid">
+                <label class="option"><input type="radio" name="energy" value="3"><span><b>Sportskanone</b><small>Joggen, Wandern, immer draußen</small></span></label>
+                <label class="option"><input type="radio" name="energy" value="2"><span><b>Mal so, mal so</b><small>Gute Runden, aber auch mal Sofa</small></span></label>
+                <label class="option"><input type="radio" name="energy" value="1"><span><b>Team Gemütlich</b><small>Ruhige Runden, viel Kuscheln</small></span></label>
+              </div>
+            </fieldset>
+
+            <fieldset class="quiz__step" data-step="1">
+              <legend>Wer wohnt bei dir?</legend>
+              <div class="option-grid">
+                <label class="option"><input type="radio" name="household" value="kids"><span><b>Familie mit Kindern</b><small>Hier ist immer Action</small></span></label>
+                <label class="option"><input type="radio" name="household" value="adults"><span><b>Nur Erwachsene</b><small>Eher ruhiger Haushalt</small></span></label>
+                <label class="option"><input type="radio" name="household" value="dogs"><span><b>Schon ein Hund</b><small>Ein Kumpel wartet schon</small></span></label>
+                <label class="option"><input type="radio" name="household" value="cats"><span><b>Eine Katze</b><small>Die Chefin des Hauses</small></span></label>
+              </div>
+            </fieldset>
+
+            <fieldset class="quiz__step" data-step="2">
+              <legend>Wie viel Hundeerfahrung hast du?</legend>
+              <div class="option-grid">
+                <label class="option"><input type="radio" name="experience" value="1"><span><b>Frischling</b><small>Mein erster eigener Hund</small></span></label>
+                <label class="option"><input type="radio" name="experience" value="2"><span><b>Ein bisschen</b><small>Familienhund, Freunde, Gassi</small></span></label>
+                <label class="option"><input type="radio" name="experience" value="3"><span><b>Alter Hase</b><small>Ich hatte schon mehrere Hunde</small></span></label>
+              </div>
+            </fieldset>
+
+            <fieldset class="quiz__step" data-step="3">
+              <legend>Wie wohnst du?</legend>
+              <div class="option-grid">
+                <label class="option"><input type="radio" name="home" value="house"><span><b>Haus mit Garten</b><small>Platz zum Buddeln</small></span></label>
+                <label class="option"><input type="radio" name="home" value="flat"><span><b>Wohnung</b><small>Mit Park oder Wald in der Nähe</small></span></label>
+              </div>
+            </fieldset>
+
+            <div class="quiz__nav">
+              <button type="button" class="btn btn--paper btn--sm" id="quizBack" disabled>
+                <svg class="icon" aria-hidden="true"><use href="#i-chev-left"/></svg> Zurück
+              </button>
+              <span class="quiz__hint">Antippen, dann geht es automatisch weiter.</span>
+              <button type="button" class="btn btn--blue btn--sm" id="quizNext" disabled>Weiter</button>
+            </div>
+          </form>
+
+          <div class="quiz__result" id="quizResult" hidden tabindex="-1" aria-live="polite"></div>
+        </div>
+
+        <!-- ===== KI-RASSEBERATER: freie Beschreibung -> OpenAI (über ki-server) -> Rassen + passende Tierheim-Hunde ===== -->
+        <div class="quiz paper-sheet aiquiz" id="aiquiz" role="tabpanel" aria-labelledby="tabKi" hidden>
+          <p class="quiz__step-label">KI-Rasseberater · per OpenAI</p>
+          <h3 class="aiquiz__title">Erzähl mal: Was magst du an Hunden?</h3>
+          <p class="aiquiz__hint">Schreib in deinen eigenen Worten, was dir wichtig ist: Charakter, Größe, Aussehen, wie viel Bewegung, wie du wohnst … Die KI schlägt dir passende Rassen vor und schaut, wer bei uns im Tierheim dazu passt.</p>
+
+          <form id="aiForm" novalidate>
+            <label class="sr-only" for="aiText">Deine Beschreibung</label>
+            <textarea id="aiText" maxlength="1200" rows="5" placeholder="z. B. Ich mag verschmuste Hunde, die nicht zu groß sind. Ich wohne in einer Wohnung, gehe gern lange spazieren, aber nicht joggen. Eine Katze wohnt auch bei mir."></textarea>
+            <div class="aiquiz__chips" aria-label="Bausteine zum Antippen">
+              <button type="button" class="chip chip--mini" data-add="Ich wohne in einer Wohnung.">+ Wohnung</button>
+              <button type="button" class="chip chip--mini" data-add="Ich habe ein Haus mit Garten.">+ Garten</button>
+              <button type="button" class="chip chip--mini" data-add="Bei mir leben Kinder.">+ Kinder</button>
+              <button type="button" class="chip chip--mini" data-add="Eine Katze wohnt bei mir.">+ Katze</button>
+              <button type="button" class="chip chip--mini" data-add="Es wäre mein erster Hund.">+ erster Hund</button>
+              <button type="button" class="chip chip--mini" data-add="Ich bin sehr sportlich.">+ sportlich</button>
+              <button type="button" class="chip chip--mini" data-add="Ich mag es gemütlich.">+ gemütlich</button>
+            </div>
+            <div class="aiquiz__row">
+              <span class="aiquiz__count" id="aiCount">0 / 1200</span>
+              <button type="submit" class="btn btn--blue" id="aiSend">KI um Rat fragen ✶</button>
+            </div>
+            <p class="aiquiz__privacy">🔒 Deine Beschreibung geht nur für diese eine Antwort an OpenAI und wird nirgends gespeichert. Bitte keine Namen, Adressen oder Telefonnummern eintippen.</p>
+          </form>
+
+          <div class="aiquiz__result" id="aiResult" aria-live="polite" tabindex="-1"></div>
+        </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============ FRAG WUFFI: KI-Chat über OpenAI (Code in app.js, Mittelsmann seit 18.11.2026: n8n-Workflow "Tierpfoten: Frag Wuffi") ============ -->
+    <section class="section section--dots" id="wuffi" aria-labelledby="wuffiTitle">
+      <div class="container wuffi">
+        <div class="wuffi__intro" data-reveal>
+          <p class="label">Seite 4½ · KI-Sprechstunde</p>
+          <h2 id="wuffiTitle" class="riso-title">Frag Wuffi!</h2>
+          <p class="lead">Wuffi ist unser KI-Hund. Er kennt alle <span data-dog-count>12</span> Fellnasen, unsere Besuchszeiten und weiß, wie eine Adoption abläuft. Frag ihn einfach.</p>
+          <p class="wuffi__status" id="wuffiStatus" role="status"><span class="wuffi__dot" aria-hidden="true"></span><span class="wuffi__status-text">Wuffi wird geweckt …</span></p>
+          <p class="wuffi__note"><strong>Gut zu wissen:</strong> Wuffi ist eine KI (OpenAI) und kann sich irren. Verbindlich ist nur, was das Team sagt. Bitte keine persönlichen Daten eintippen.</p>
+        </div>
+
+        <div class="chat" data-reveal>
+          <div class="chat__head">
+            <span class="chat__avatar" aria-hidden="true"><svg class="icon icon--fill"><use href="#i-paw"/></svg></span>
+            <span><strong>Wuffi</strong><small>KI-Hund · antwortet über n8n &amp; OpenAI</small></span>
+          </div>
+          <div class="chat__log" id="chatLog" role="log" aria-live="polite" aria-label="Unterhaltung mit Wuffi"></div>
+          <div class="chat__suggest" id="chatSuggest" aria-label="Fragen zum Antippen">
+            <button type="button" class="chip chip--mini" data-ask="Welcher Hund passt zu meiner Katze?">Hund mit Katze?</button>
+            <button type="button" class="chip chip--mini" data-ask="Wer wartet bei euch am längsten auf ein Zuhause?">Wer wartet am längsten?</button>
+            <button type="button" class="chip chip--mini" data-ask="Ich wohne in einer Wohnung und bin Anfänger. Wer passt zu mir?">Wohnung &amp; Anfänger</button>
+            <button type="button" class="chip chip--mini" data-ask="Was kostet eine Adoption und wie läuft sie ab?">Was kostet eine Adoption?</button>
+            <button type="button" class="chip chip--mini" data-ask="Wann kann ich vorbeikommen?">Wann kann ich vorbei?</button>
+          </div>
+          <form class="chat__form" id="chatForm" autocomplete="off">
+            <label class="sr-only" for="chatInput">Deine Frage an Wuffi</label>
+            <input type="text" id="chatInput" maxlength="500" placeholder="Frag Wuffi, z. B. „Wer ist am verschmustesten?“">
+            <button type="submit" class="btn btn--pink" id="chatSend">Fragen</button>
+          </form>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============ MITMACHEN: 3 Coupons zum Ausschneiden ============ -->
+    <section class="section section--yellow" id="mitmachen" aria-labelledby="helpTitle">
+      <div class="container">
+        <div class="section-head section-head--center" data-reveal>
+          <p class="label">Seite 5 · Coupons</p>
+          <h2 id="helpTitle" class="riso-title">Drei Wege zu helfen</h2>
+          <p class="section-head__text">Schneid dir einen aus! Ein Zuhause schenken, Zeit mitbringen oder das Leckerli-Konto füllen. Jeder Beitrag zählt.</p>
+        </div>
+
+        <div class="coupons">
+          <article class="coupon" data-reveal>
+            <p class="coupon__cut" aria-hidden="true"><svg class="icon"><use href="#i-scissors"/></svg> hier abtrennen</p>
+            <p class="coupon__value">Gutschein für<br><strong>1 Zuhause</strong></p>
+            <h3>Hund adoptieren</h3>
+            <p>Schenk einem Schützling ein Zuhause für immer. Wir begleiten dich mit Vorgesprächen und Kennenlern-Spaziergängen.</p>
+            <ul class="checklist">
+              <li>Persönliches Kennenlernen vor Ort</li>
+              <li>Gemeinsame Spaziergänge in Darmstadt</li>
+              <li>Schutzvertrag &amp; lebenslange Begleitung</li>
+            </ul>
+            <button type="button" class="btn btn--blue btn--block" data-prefill="kennenlernen">Adoptionsanfrage stellen</button>
+          </article>
+
+          <article class="coupon coupon--featured" data-reveal>
+            <span class="burst burst--small" aria-hidden="true"><span>Gesucht!</span></span>
+            <p class="coupon__cut" aria-hidden="true"><svg class="icon"><use href="#i-scissors"/></svg> hier abtrennen</p>
+            <figure class="coupon__img riso riso--yellow"><img src="assets/bilder/gassigehen_ehrenamt.png" alt="" width="1376" height="768" loading="lazy"></figure>
+            <p class="coupon__value">Gutschein für<br><strong>1 Gassirunde</strong></p>
+            <h3>Gassigehen &amp; mithelfen</h3>
+            <p>Du hast Zeit, aber keinen Platz? Unsere Hunde freuen sich über verlässliche Gassigeher:innen.</p>
+            <ul class="checklist">
+              <li>Feste Zeiten: Mi &amp; Sa ab 14:00 Uhr</li>
+              <li>Kostenlose Einführung &amp; Versicherung</li>
+              <li>Schöne Runden durch den Stadtwald</li>
+            </ul>
+            <button type="button" class="btn btn--pink btn--block" data-prefill="gassi">Als Gassigeher:in anmelden</button>
+          </article>
+
+          <article class="coupon" data-reveal>
+            <p class="coupon__cut" aria-hidden="true"><svg class="icon"><use href="#i-scissors"/></svg> hier abtrennen</p>
+            <p class="coupon__value">Gutschein für<br><strong>volle Näpfe</strong></p>
+            <h3>Spenden &amp; Pate werden</h3>
+            <p>Futter, Tierarzt und Wärme bezahlen wir zu 100&nbsp;% aus Spenden. Als Pate oder Patin begleitest du einen Hund regelmäßig.</p>
+            <ul class="checklist">
+              <li>Jeder Euro hilft direkt vor Ort</li>
+              <li>Spendenquittung auf Wunsch</li>
+              <li>Patenschaft für deinen Lieblingshund</li>
+            </ul>
+            <div class="coupon__actions">
+              <a href="#spenden" class="btn btn--blue btn--block">Zum Leckerli-Konto</a>
+              <button type="button" class="btn btn--paper btn--block" data-prefill="pate">Patenschaft anfragen</button>
+            </div>
+          </article>
+        </div>
+
+        <!-- ===== GASSI-WETTER: Live-Daten von OpenWeatherMap, abgeholt über n8n (Code in app.js, Schlüssel nur in n8n) ===== -->
+        <aside class="weather" id="gassiwetter" aria-labelledby="weatherTitle" data-reveal>
+          <div class="weather__head">
+            <p class="weather__api">Live per API · OpenWeatherMap</p>
+            <h3 id="weatherTitle">Gassi-Wetter Eberstadt</h3>
+          </div>
+          <div class="weather__body" id="weatherBody" aria-live="polite">
+            <p class="weather__msg">Wetter wird geladen …</p>
+          </div>
+          <div class="weather__foot">
+            <p class="weather__meta" id="weatherMeta"></p>
+            <button type="button" class="scribble-btn" id="weatherReload">Neu laden ↻</button>
+          </div>
+        </aside>
+      </div>
+    </section>
+
+    <!-- ============ LECKERLI-KONTO (Spendenrechner) ============ -->
+    <section class="section" id="spenden" aria-labelledby="donateTitle">
+      <div class="container donate">
+        <div class="donate__calc" data-reveal>
+          <p class="label">Seite 6 · Wirkungsrechner</p>
+          <h2 id="donateTitle" class="riso-title">Das Leckerli-Konto</h2>
+          <p class="lead">Schieb den Knochen und schau, was dein Betrag im Tierheim bewirkt.</p>
+
+          <div class="amount">
+            <output class="amount__value" id="amountOutput" for="amountRange" aria-live="polite">35&nbsp;€</output>
+            <label class="sr-only" for="amountRange">Spendenbetrag in Euro wählen</label>
+            <input type="range" id="amountRange" class="range" min="15" max="300" step="5" value="35" aria-valuetext="35 Euro">
+            <div class="amount__chips" role="group" aria-label="Schnellauswahl Betrag">
+              <button type="button" class="chip" data-amount="15" aria-pressed="false">15 €</button>
+              <button type="button" class="chip is-active" data-amount="35" aria-pressed="true">35 €</button>
+              <button type="button" class="chip" data-amount="75" aria-pressed="false">75 €</button>
+              <button type="button" class="chip" data-amount="150" aria-pressed="false">150 €</button>
+            </div>
+          </div>
+
+          <div class="impact" id="impactBox">
+            <p id="impactText">Ermöglicht einen tierärztlichen Eingangs-Check, Entwurmung und Flohprophylaxe für einen neu aufgenommenen Schützling.</p>
+          </div>
+          <p class="impact__extra" id="impactExtra">Anders gerechnet: rund <strong>2 Wochen</strong> Spezialfutter für einen geschwächten Hund.</p>
+        </div>
+
+        <div class="donate__side" data-reveal>
+          <figure class="cutout cutout--donate riso riso--pink">
+            <img src="assets/bilder/spenden_care.png" alt="Eine Pflegerin hält liebevoll die Pfote eines Hundes auf dem Behandlungstisch" width="1376" height="768" loading="lazy">
+            <span class="tape tape--tl" aria-hidden="true"></span>
+          </figure>
+
+          <div class="receipt">
+            <p class="receipt__head">★ Kassenbon ★<br>Leckerli-Konto</p>
+            <dl class="receipt__rows">
+              <div><dt>Bank</dt><dd>Sparkasse Darmstadt</dd></div>
+              <div><dt>Empf.</dt><dd>Tierpfoten Darmstadt e.V.</dd></div>
+              <div><dt>Zweck</dt><dd>z. B. „Spende Futter“</dd></div>
+            </dl>
+            <p class="receipt__label">IBAN</p>
+            <code id="ibanCode">DE00 0000 0000 0000 0000 00</code>
+            <button type="button" class="copy-btn" id="copyIban">
+              <svg class="icon icon--copy" aria-hidden="true"><use href="#i-copy"/></svg>
+              <svg class="icon icon--done" aria-hidden="true"><use href="#i-check"/></svg>
+              <span>IBAN kopieren</span>
+            </button>
+            <p class="receipt__foot">Nur ein Beispiel-Konto · Bitte nichts überweisen!<br>Danke trotzdem! Wuff!</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============ FAQ: Karteikarten ============ -->
+    <section class="section section--dots" id="faq" aria-labelledby="faqTitle">
+      <div class="container faq">
+        <div class="faq__intro" data-reveal>
+          <p class="label">Seite 7 · Leserbriefe</p>
+          <h2 id="faqTitle" class="riso-title">Fragen, die wir oft hören</h2>
+          <p class="lead">Eine Adoption ist eine Entscheidung fürs Leben. Hier die wichtigsten Antworten. Für alles andere sind wir persönlich da.</p>
+          <a href="#kontakt" class="btn btn--paper" data-prefill="allgemein">Eigene Frage stellen</a>
+        </div>
+
+        <div class="faq__list" data-reveal>
+          <details class="faq-item" name="faq">
+            <summary><span class="faq-item__q">F:</span> Wie hoch ist die Schutzgebühr und wofür ist sie?<span class="faq-item__icon" aria-hidden="true"></span></summary>
+            <div class="faq-item__body">
+              <p><strong>A:</strong> 350 € für ausgewachsene Hunde, 250 € für Senioren. Sie deckt einen Teil der Tierarztkosten: Jeder Hund ist geimpft, gechippt, entwurmt, hat einen EU-Heimtierausweis und ist, wenn medizinisch möglich, kastriert.</p>
+            </div>
+          </details>
+          <details class="faq-item" name="faq">
+            <summary><span class="faq-item__q">F:</span> Wie läuft das Kennenlernen ab?<span class="faq-item__icon" aria-hidden="true"></span></summary>
+            <div class="faq-item__body">
+              <ol class="steps">
+                <li><strong>Erstkontakt &amp; Fragebogen:</strong> Du meldest dich über unser Formular.</li>
+                <li><strong>Kennenlernen:</strong> Wir verabreden mehrere gemeinsame Spaziergänge in Darmstadt.</li>
+                <li><strong>Vorkontrolle:</strong> Jemand aus unserem Team besucht dich zu Hause.</li>
+                <li><strong>Schutzvertrag &amp; Einzug:</strong> Nach der Kennenlernphase zieht dein Hund bei dir ein.</li>
+              </ol>
+            </div>
+          </details>
+          <details class="faq-item" name="faq">
+            <summary><span class="faq-item__q">F:</span> Geht das auch in einer Mietwohnung?<span class="faq-item__icon" aria-hidden="true"></span></summary>
+            <div class="faq-item__body">
+              <p><strong>A:</strong> Ja, klar! Ein Garten ist nicht entscheidend. Wichtig sind genug Zeit, artgerechte Auslastung und die schriftliche Erlaubnis deiner Vermietung.</p>
+            </div>
+          </details>
+          <details class="faq-item" name="faq">
+            <summary><span class="faq-item__q">F:</span> Was, wenn sich mein Leben ändert?<span class="faq-item__icon" aria-hidden="true"></span></summary>
+            <div class="faq-item__body">
+              <p><strong>A:</strong> Wir lassen niemanden allein. Im Schutzvertrag steht, dass der Hund im Notfall jederzeit zu uns zurückkommen kann. Und auch nach der Adoption beraten wir dich ein Hundeleben lang.</p>
+            </div>
+          </details>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============ BESUCH & KONTAKT: Stundenplan + Postkarte ============ -->
+    <section class="section" id="besuch" aria-labelledby="visitTitle">
+      <div class="container visit">
+        <div class="visit__info" data-reveal>
+          <p class="label">Seite 8 · Hausbesuch</p>
+          <h2 id="visitTitle" class="riso-title">Komm vorbei!</h2>
+          <p class="lead">Damit unsere Hunde entspannt bleiben, meld dich für Erstbesuche oder Beratungen bitte kurz vorher an.</p>
+
+          <div class="timetable" aria-labelledby="hoursTitle">
+            <h3 id="hoursTitle">Stundenplan <small>Besuchs- &amp; Telefonzeiten</small></h3>
+            <ul class="timetable__days" id="hoursList">
+              <li data-day="1"><b>Mo</b><span>Ruhe&shy;tag</span></li>
+              <li data-day="2"><b>Di</b><span>Ruhe&shy;tag</span></li>
+              <li data-day="3" class="is-open-day"><b>Mi</b><span>14–17:30</span></li>
+              <li data-day="4" class="is-open-day"><b>Do</b><span>14–17:30</span></li>
+              <li data-day="5" class="is-open-day"><b>Fr</b><span>14–17:30</span></li>
+              <li data-day="6" class="is-open-day"><b>Sa</b><span>14–17:30</span></li>
+              <li data-day="0" class="is-appt-day"><b>So</b><span>11–14 Termin</span></li>
+            </ul>
+            <p class="timetable__note">Mo &amp; Di haben die Tiere Ruhetag. Anfragen gehen trotzdem jederzeit übers Formular.</p>
+          </div>
+
+          <div class="tag-cards">
+            <a class="luggage" href="#projekt-info">
+              <svg class="icon" aria-hidden="true"><use href="#i-pin"/></svg>
+              <span><strong>Pfotenweg 1</strong>64297 Darmstadt-Eberstadt <em>Adresse erfunden</em></span>
+            </a>
+            <a class="luggage" href="#projekt-info">
+              <svg class="icon" aria-hidden="true"><use href="#i-phone"/></svg>
+              <span><strong>06151 / 00 00 00</strong>Nummer erfunden</span>
+            </a>
+            <a class="luggage" href="mailto:info@tierpfoten-darmstadt-dummy.de">
+              <svg class="icon" aria-hidden="true"><use href="#i-mail"/></svg>
+              <span><strong>E-Mail schreiben</strong><span class="break">info@tierpfoten-darmstadt-dummy.de</span></span>
+            </a>
+          </div>
+        </div>
+
+        <div class="postcard" id="kontakt" data-reveal>
+          <div class="postcard__stamp" aria-hidden="true">
+            <svg class="icon icon--fill"><use href="#i-paw"/></svg>
+            <span>Wuff-Post</span>
+          </div>
+          <h3>Schreib uns eine Postkarte</h3>
+          <p class="postcard__lead">Adoption, Gassigehen, Patenschaft oder einfach eine Frage? Wir antworten innerhalb von 24–48 Stunden.</p>
+
+          <form id="contactForm" novalidate>
+            <fieldset class="topic-group">
+              <legend>Worum geht's?</legend>
+              <div class="topic-chips">
+                <label><input type="radio" name="topic" value="kennenlernen" checked><span>Hund kennenlernen</span></label>
+                <label><input type="radio" name="topic" value="gassi"><span>Gassi / Helfen</span></label>
+                <label><input type="radio" name="topic" value="pate"><span>Spende &amp; Pate</span></label>
+                <label><input type="radio" name="topic" value="allgemein"><span>Frage</span></label>
+              </div>
+            </fieldset>
+
+            <div class="field">
+              <label for="formName">Dein Name <span aria-hidden="true">*</span></label>
+              <input type="text" id="formName" name="name" required autocomplete="name" placeholder="z. B. Julia Schneider" aria-describedby="formNameError">
+              <p class="field__error" id="formNameError"></p>
+            </div>
+            <div class="field">
+              <label for="formEmail">Deine E-Mail <span aria-hidden="true">*</span></label>
+              <input type="email" id="formEmail" name="email" required autocomplete="email" placeholder="julia@beispiel.de" aria-describedby="formEmailError">
+              <p class="field__error" id="formEmailError"></p>
+            </div>
+            <div class="field">
+              <label for="formMsg">Deine Nachricht <span aria-hidden="true">*</span></label>
+              <textarea id="formMsg" name="message" rows="4" required placeholder="Erzähl uns kurz von dir oder welcher Hund dich interessiert …" aria-describedby="formMsgError"></textarea>
+              <p class="field__error" id="formMsgError"></p>
+            </div>
+
+            <button type="submit" class="btn btn--pink btn--lg btn--block">Ab die Post! <svg class="icon" aria-hidden="true"><use href="#i-arrow"/></svg></button>
+            <p class="postcard__hint">Demo-Formular: Es wird nichts verschickt.</p>
+          </form>
+
+          <div class="form-success" id="formSuccess" hidden tabindex="-1">
+            <div class="stamp stamp--success" aria-hidden="true"><span>Post</span><strong>Ist raus!</strong><span>✶ Wuff ✶</span></div>
+            <h3 id="formSuccessTitle">Danke!</h3>
+            <p id="formSuccessText"></p>
+            <button type="button" class="btn btn--paper btn--sm" id="formAgain">Noch eine Postkarte schreiben</button>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <!-- ============ FUSSZEILE ============ -->
+  <footer class="site-footer">
+    <div class="container">
+      <p class="site-footer__wuff" aria-hidden="true">Wuff.</p>
+      <div class="site-footer__grid">
+        <div>
+          <p class="site-footer__claim">Jeder Hund verdient eine zweite Chance.</p>
+          <a href="#hunde" class="btn btn--yellow">Jetzt Hunde kennenlernen <svg class="icon" aria-hidden="true"><use href="#i-arrow"/></svg></a>
+        </div>
+        <nav class="site-footer__nav" aria-label="Fußzeile">
+          <ul>
+            <li><a href="#ueber-uns">Über uns</a></li>
+            <li><a href="#hunde">Die Hunde</a></li>
+            <li><a href="#match">Schnüffel-Test</a></li>
+            <li><a href="#mitmachen">Mitmachen</a></li>
+            <li><a href="#spenden">Leckerli-Konto</a></li>
+            <li><a href="#faq">Fragen</a></li>
+            <li><a href="#projekt-info">Über dieses Projekt &amp; Datenschutz</a></li>
+          </ul>
+        </nav>
+        <div class="site-footer__sos">
+          <p><svg class="icon" aria-hidden="true"><use href="#i-siren"/></svg> 24h-Notruf</p>
+          <a href="#projekt-info">06151 / 00 00 00 (fiktiv)</a>
+          <p class="site-footer__egg">Psst … tipp mal <kbd>w</kbd><kbd>u</kbd><kbd>f</kbd><kbd>f</kbd> auf der Tastatur.</p>
+        </div>
+      </div>
+      <div class="site-footer__bottom">
+        <p>© 2026 Tierpfoten Darmstadt · Fiktiver Tierschutzverein, kein eingetragener Verein</p>
+        <p>Übungsprojekt aus einer Weiterbildung zum AI Manager. Gedruckt mit Liebe &amp; Sabber.</p>
+      </div>
+      <div class="projekt-info" id="projekt-info">
+        <h2>Über dieses Projekt &amp; Datenschutz</h2>
+        <p><strong>Was ist das hier?</strong> Ein privates, nicht-kommerzielles Übungsprojekt. Das Tierheim „Tierpfoten Darmstadt“, seine Hunde, Adresse, Telefonnummern und das Spendenkonto sind erfunden. Hier kann man nichts spenden und keinen Hund adoptieren. Wer einem Hund ein Zuhause geben möchte, wendet sich bitte an ein echtes Tierheim.</p>
+        <p><strong>Kontaktformular:</strong> Das Formular verschickt und speichert nichts. Was du eintippst, bleibt in deinem Browser.</p>
+        <p><strong>Merkliste &amp; Farbmodus:</strong> werden nur lokal in deinem Browser gespeichert (localStorage), nicht auf einem Server.</p>
+        <p><strong>KI-Funktionen (Frag Wuffi, KI-Rasseberater, Hundeblick):</strong> Deine Eingaben werden zur Beantwortung an einen n8n-Server und von dort an OpenAI übertragen. Bitte gib dort keine persönlichen Daten ein.</p>
+        <p><strong>Gassi-Wetter:</strong> Dein Browser fragt dafür einen n8n-Server, der die Wetterdaten für Darmstadt-Eberstadt bei OpenWeatherMap abholt. OpenWeatherMap bekommt dabei keine Daten über dich.</p>
+        <p><strong>Hosting:</strong> Die Seite liegt bei GitHub Pages (GitHub Inc.). Beim Aufruf verarbeitet GitHub technisch notwendige Daten wie deine IP-Adresse. Schriften und Bilder werden direkt von hier geladen, nicht von Google.</p>
+      </div>
+    </div>
+  </footer>
+
+  <!-- ============ HANDY-LEISTE ============ -->
+  <nav class="dock" id="dock" aria-label="Schnellzugriff">
+    <a href="#hunde"><svg class="icon icon--fill" aria-hidden="true"><use href="#i-paw"/></svg><span>Hunde</span></a>
+    <a href="#match"><span class="dock__emoji" aria-hidden="true">?!</span><span>Test</span></a>
+    <button type="button" data-show-favs aria-label="Merkliste anzeigen">
+      <svg class="icon" aria-hidden="true"><use href="#i-heart"/></svg><span>Gemerkt</span>
+      <span class="fav-count" data-fav-count aria-hidden="true">0</span>
+    </button>
+    <a href="#spenden" class="dock__cta"><svg class="icon icon--fill icon--bone" aria-hidden="true" viewBox="0 0 48 24"><use href="#i-bone"/></svg><span>Spenden</span></a>
+  </nav>
+
+  <button type="button" class="to-top" id="toTop" aria-label="Zum Seitenanfang">
+    <svg class="icon" aria-hidden="true"><use href="#i-arrow-up"/></svg>
+  </button>
+
+  <div class="toast" id="toast" role="status" aria-live="polite"></div>
+  <div class="fx-layer" id="fxLayer" aria-hidden="true"></div>
+
+  <!-- ============ STECKBRIEF-FENSTER (wird von app.js befüllt) ============ -->
+  <dialog class="modal" id="dogModal" aria-labelledby="modalTitle">
+    <div class="modal__inner" id="modalInner"></div>
+  </dialog>
+
+  <script src="app.js"></script>
+</body>
+</html>
